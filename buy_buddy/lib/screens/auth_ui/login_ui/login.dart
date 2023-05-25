@@ -1,9 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:buy_buddy/constants/constants.dart';
 import 'package:buy_buddy/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:buy_buddy/screens/home/home.dart';
 import 'package:buy_buddy/widgets/primary_btn.dart';
 import 'package:buy_buddy/widgets/top_titles.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if(isValidated){
                      bool isLogined = await FireBaseAuthHelper.instance.login(emailController.text, passwordController.text, context);
                      if(isLogined){
-                      Routes.pushAndRemoveUntill(HomeScreen(), context);
+                      Routes.pushAndRemoveUntill(const HomeScreen(), context);
                       showMessage("User logged in");
                      }
                     }

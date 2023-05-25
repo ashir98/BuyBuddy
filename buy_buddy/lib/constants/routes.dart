@@ -14,14 +14,14 @@ class Routes{
 
   static Future<dynamic> push(Widget widget, BuildContext context){
     return Navigator.of(context).push(
-      PageTransition(child: widget, type: PageTransitionType.fade ,duration: Duration(milliseconds: 250) ,reverseDuration: Duration(milliseconds: 250))
+      PageTransition(child: widget, type: PageTransitionType.fade ,duration: const Duration(milliseconds: 250) ,reverseDuration: const Duration(milliseconds: 250))
     );
   }
 
 
     static Future<dynamic> pushReplacement(Widget widget, BuildContext context){
     return Navigator.of(context).pushReplacement(
-      PageTransition(child: widget, type: PageTransitionType.fade ,duration: Duration(milliseconds: 250) ,reverseDuration: Duration(milliseconds: 250))
+      PageTransition(child: widget, type: PageTransitionType.fade ,duration: const Duration(milliseconds: 250) ,reverseDuration: const Duration(milliseconds: 250))
     );
   }
 

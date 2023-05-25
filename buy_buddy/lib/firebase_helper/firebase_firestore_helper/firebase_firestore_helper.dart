@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseFirestoreHelper {
   static FirebaseFirestoreHelper instance = FirebaseFirestoreHelper();
-  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   Future<List<CategoryModel>> getCategories() async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -40,5 +40,24 @@ class FirebaseFirestoreHelper {
       return [];
     }
   }
+
+
+
+    Future<List<ProductModel>> getCategoryProducts(String id) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await _firebaseFirestore.collection("categories").doc(id).collection("products").get();
+
+      List<ProductModel> categoryProducts = querySnapshot.docs
+          .map((e) => ProductModel.fromJson(e.data()))
+          .toList();
+          
+
+      return categoryProducts;
+    } catch (e) {
+      showMessage(e.toString());
+      return [];
+    }
+  }  
 
 }

@@ -3,7 +3,6 @@ import 'package:buy_buddy/firebase_helper/firebase_auth_helper/firebase_auth_hel
 import 'package:buy_buddy/screens/welcome/welcome.dart';
 import 'package:buy_buddy/screens/home/home.dart';
 import 'package:buy_buddy/themes/theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -29,10 +28,10 @@ class BuyBuddy extends StatelessWidget {
         stream: FireBaseAuthHelper.instance.getAuthChange,
         builder: (context, snapshot) {
           if(snapshot.hasData){
-            return HomeScreen();
+            return const HomeScreen();
           }
           else{
-            return WelcomeScreen();
+            return const WelcomeScreen();
           }
         },
       ),

@@ -6,7 +6,7 @@ ThemeData themeData = ThemeData(
  primaryColor: AppColor.primaryColor,
  elevatedButtonTheme: ElevatedButtonThemeData(
   style: ElevatedButton.styleFrom(
-    backgroundColor: AppColor.primaryColor
+    backgroundColor: Colors.red.shade400
   )
  ),
 
@@ -26,7 +26,7 @@ ThemeData themeData = ThemeData(
 
 
 OutlineInputBorder outlineInputBorder = OutlineInputBorder(
-  borderSide: BorderSide(color: Colors.grey),
+  borderSide: const BorderSide(color: Colors.grey),
   borderRadius: BorderRadius.circular(50),
   
   

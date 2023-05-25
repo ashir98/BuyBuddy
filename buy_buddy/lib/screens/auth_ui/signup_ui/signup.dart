@@ -1,10 +1,11 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:buy_buddy/constants/constants.dart';
 import 'package:buy_buddy/constants/routes.dart';
 import 'package:buy_buddy/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:buy_buddy/widgets/primary_btn.dart';
 import 'package:buy_buddy/widgets/top_titles.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if(isValidated){
                       bool isSignedUp = await FireBaseAuthHelper.instance.signUp(emailController.text, passwordController.text, context);
                       if(isSignedUp){
-                        Routes.push(LoginScreen(), context);
+                        Routes.push(const LoginScreen(), context);
                         showMessage("Account created sucessfully!");
                       }
                     }

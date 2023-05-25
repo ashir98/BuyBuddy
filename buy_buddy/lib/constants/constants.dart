@@ -1,3 +1,5 @@
+// ignore_for_file: no_duplicate_case_values
+
 import 'package:buy_buddy/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -29,7 +31,7 @@ void showLoaderDialog(BuildContext context){
             CircularProgressIndicator(
               color: AppColor.primaryColor,
             ),
-            Text("Loading")
+            const Text("Loading")
           ],
         ),
       );
