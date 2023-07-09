@@ -1,7 +1,10 @@
-import 'package:buy_buddy/constants/constants.dart';
+import 'package:buy_buddy/utils/constants.dart';
 import 'package:buy_buddy/models/category_model/category_model.dart';
 import 'package:buy_buddy/models/products_model/products_model.dart';
+import 'package:buy_buddy/models/user_model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseFirestoreHelper {
   static FirebaseFirestoreHelper instance = FirebaseFirestoreHelper();
@@ -14,7 +17,6 @@ class FirebaseFirestoreHelper {
       List<CategoryModel> categoriesList = querySnapshot.docs
           .map((e) => CategoryModel.fromJson(e.data()))
           .toList();
-          print(categoriesList);
 
       return categoriesList;
     } catch (e) {
@@ -22,26 +24,6 @@ class FirebaseFirestoreHelper {
       return [];
     }
   }
-
-
-    Future<List<ProductModel>> getTopSellingProducts() async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await _firebaseFirestore.collectionGroup("products").get();
-
-      List<ProductModel> bestSellingProducts = querySnapshot.docs
-          .map((e) => ProductModel.fromJson(e.data()))
-          .toList();
-          
-
-      return bestSellingProducts;
-    } catch (e) {
-      showMessage(e.toString());
-      return [];
-    }
-  }
-
-
 
     Future<List<ProductModel>> getCategoryProducts(String id) async {
     try {
@@ -59,5 +41,81 @@ class FirebaseFirestoreHelper {
       return [];
     }
   }  
+
+    Future<List<ProductModel>> getTopSellingProducts() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await _firebaseFirestore.collectionGroup("products").get();
+
+      List<ProductModel> bestSellingProducts = querySnapshot.docs
+          .map((e) => ProductModel.fromJson(e.data()))
+          .toList();
+      return bestSellingProducts;
+    } catch (e) {
+      showMessage(e.toString());
+      return [];
+    }
+  }
+
+
+
+
+
+
+  Future<UserModel> getUserInfo() async {
+
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot = await _firebaseFirestore.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get();
+      return UserModel.fromJson(docSnapshot.data());
+
+
+  }  
+
+
+  ///post order on firebase
+  
+
+  Future<bool> postOrderedItemFirebase(List<ProductModel> list, BuildContext context, String payment )async{
+
+    try {
+
+      showLoaderDialog(context);
+
+      double totalPrice = 0.00;
+      for(var element in list){
+
+        var qty = element.quantity!.toDouble();
+        var price= double.parse(element.price);
+
+        totalPrice += price * qty;
+      }
+
+      DocumentReference documentReference =_firebaseFirestore.collection("userOrders")
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection("orders")
+      .doc()
+      ;
+
+      documentReference.set({
+        "products" : list.map((e) => e.toJson()),
+        "status": "pending",
+        "totalPrice": totalPrice,
+        "payment":payment
+      });
+
+      Navigator.of(context, rootNavigator: true).pop();
+
+      showMessage("Ordered successfully!");
+
+      return true;
+
+    } catch (e) {
+
+      showMessage(e.toString());
+      Navigator.of(context, rootNavigator: true).pop();
+
+      return false;
+    }
+
+  }
 
 }

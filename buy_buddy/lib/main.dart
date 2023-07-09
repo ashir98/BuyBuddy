@@ -1,10 +1,13 @@
 
 import 'package:buy_buddy/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
+import 'package:buy_buddy/provider/app_provider.dart';
+import 'package:buy_buddy/screens/custom_navbar/custom_navbar.dart';
+import 'package:buy_buddy/screens/splash_screen/splash_screen.dart';
 import 'package:buy_buddy/screens/welcome/welcome.dart';
-import 'package:buy_buddy/screens/home/home.dart';
 import 'package:buy_buddy/themes/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -20,20 +23,23 @@ class BuyBuddy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "BuyBuddy",
-      theme: themeData,
-      debugShowCheckedModeBanner: false,
-      home: StreamBuilder(
-        stream: FireBaseAuthHelper.instance.getAuthChange,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            return const HomeScreen();
-          }
-          else{
-            return const WelcomeScreen();
-          }
-        },
+    return ChangeNotifierProvider(
+      create: (context) => AppProvider(),
+      child: MaterialApp(
+        title: "BuyBuddy",
+        theme: lightTheme(),
+        debugShowCheckedModeBanner: false,
+        home: StreamBuilder(
+          stream: FireBaseAuthHelper.instance.getAuthChange,
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              return Splash(screen: CustomBottomNavBar());
+            }
+            else{
+              return Splash(screen: WelcomeScreen());
+            }
+          },
+        ),
       ),
     );
   }

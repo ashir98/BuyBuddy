@@ -16,6 +16,7 @@ class ProductModel {
     String description;
     String status;
     bool isFav;
+    int? quantity;
 
     ProductModel({
         required this.id,
@@ -24,7 +25,8 @@ class ProductModel {
         required this.price,
         required this.description,
         required this.status,
-        required this.isFav
+        required this.isFav,
+        this.quantity
     });
 
     factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -34,7 +36,8 @@ class ProductModel {
         price: json["price"].toString(),
         description: json["description"],
         status: json["status"],
-        isFav: false
+        isFav: false,
+        quantity: json["quantity"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -44,79 +47,20 @@ class ProductModel {
         "price": price,
         "description": description,
         "status": status,
-        "isFav": isFav
+        "isFav": isFav,
+        "quantity":quantity
     };
+
+    ProductModel copyWith({
+      int? quantity,
+    })=>ProductModel(
+      id: id,
+      name: name, 
+      image: image, 
+      price: price, 
+      description: description, 
+      status: status, 
+      isFav: isFav,
+      quantity: quantity?? this.quantity,
+    );
 }
-
-
-List<ProductModel> topProducts = [
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),
-
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),  
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),  
-
-
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),  
-
-  ProductModel(
-    id: "1", 
-    name: "Laptop", 
-    image: "assets/images/products/laptop.png", 
-    price: "500", 
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing", 
-    status: "normal", 
-    isFav: false
-  ),            
-
-  
-];

@@ -1,13 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:buy_buddy/constants/constants.dart';
+import 'package:buy_buddy/utils/constants.dart';
+import 'package:buy_buddy/models/user_model/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FireBaseAuthHelper {
   static FireBaseAuthHelper instance = FireBaseAuthHelper();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  static final FirebaseFirestore _firestore =FirebaseFirestore.instance;
   Stream<User?> get getAuthChange=> _auth.authStateChanges();
 
  Future<bool> login(String email, String password, BuildContext context)async{
@@ -15,25 +17,36 @@ class FireBaseAuthHelper {
     try {
       showLoaderDialog(context);
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      Navigator.of(context, rootNavigator: true).pop();
       Navigator.pop(context);
       return true;
     }on FirebaseAuthException catch(error){
+      Navigator.of(context).pop();
       showMessage(error.code);
       return false;
     }
   }
 
 
-   Future<bool> signUp(String email, String password, BuildContext context)async{
+   Future<bool> signUp(String email, String password, String name, BuildContext context)async{
  
     try {
       showLoaderDialog(context);
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserModel userModel = UserModel(id: userCredential.user!.uid, name: name, email: email, image: null);
+      _firestore.collection("users").doc(userModel.id).set(userModel.toJson());
+      Navigator.of(context, rootNavigator: true).pop();
       Navigator.pop(context);
       return true;
     }on FirebaseAuthException catch(error){
+      Navigator.of(context).pop();
       showMessage(error.code);
       return false;
     }
+  }
+
+
+  void signOut(){
+    FirebaseAuth.instance.signOut();
   }
 }
